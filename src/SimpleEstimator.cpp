@@ -59,7 +59,7 @@ void SimpleEstimator::prepare() {
                 }
             }
 
-            labelData[i] = {numOut, graph.get()->adj[i].size(), numIn};
+            labelData[i] = {numIn, graph.get()->adj[i].size(), numOut};
         }
     }
 }
