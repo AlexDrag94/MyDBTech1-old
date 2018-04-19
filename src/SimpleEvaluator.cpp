@@ -162,14 +162,21 @@ RPQTree* SimpleEvaluator::query_optimizer(RPQTree *query) {
 
     while (ls.size() > 1) {
         RPQTree *best_plan = nullptr;
-        uint32_t better_result = 0;
+        uint32_t better_result;
+        bool first = true;
         int index = -1;
 
         for (int i = 0; i < ls.size()-1; ++i) {
             std::string data("/");
-            auto *c_plan = new RPQTree(data, ls[i-1], ls[i]);
+            auto *c_plan = new RPQTree(data, ls[i], ls[i+1]);
             uint32_t c_result = est->estimate(c_plan).noPaths;
-            if (better_result == 0 || better_result > c_result) {
+            if(first) {
+                better_result = c_result;
+                best_plan = c_plan;
+                index = i;
+                first = false;
+            }
+            else if (better_result > c_result) {
                 better_result = c_result;
                 best_plan = c_plan;
                 index = i;
