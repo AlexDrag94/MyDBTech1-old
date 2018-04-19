@@ -185,9 +185,9 @@ RPQTree* SimpleEvaluator::query_optimizer(RPQTree *query) {
 }
 
 cardStat SimpleEvaluator::evaluate(RPQTree *query) {
-    RPQTree* res_query = query_optimizer(query);
-    res_query->print();
+    //RPQTree* res_query = query_optimizer(query);
+    //res_query->print();
 
-    auto res = evaluate_aux(res_query);
+    auto res = evaluate_aux(query);
     return SimpleEvaluator::computeStats(res);
 }
