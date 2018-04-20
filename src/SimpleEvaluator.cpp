@@ -195,11 +195,8 @@ uint32_t bestSum = UINT32_MAX;
 
 void SimpleEvaluator::query_optimizer2(std::vector<RPQTree*> query, uint32_t sum) {
 
-    if(query.size() == 1) {
-        bestSum = sum;
-        best = query[0];
-    }
-    else {
+
+    if(query.size() > 1) {
         std::string data("/");
         for (auto i = 0; i < query.size() - 1; i ++) {
             auto *c_plan = new RPQTree(data, query[i], query[i + 1]);
@@ -218,6 +215,10 @@ void SimpleEvaluator::query_optimizer2(std::vector<RPQTree*> query, uint32_t sum
                 query.insert(query.begin() + i + 1, second);
             }
         }
+    }
+    else {
+        bestSum = sum;
+        best = query[0];
     }
 }
 
