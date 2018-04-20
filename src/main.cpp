@@ -169,89 +169,6 @@ int evaluatorBench(std::string &graphFile, std::string &queriesFile) {
 
 int main(int argc, char *argv[]) {
 
-//    auto g = std::make_shared<SimpleGraph>();
-//    g->readFromContiguousFile("C:\\Users\\Alex\\CLionProjects\\MyDBTech1-old\\graph.nt");
-//    auto est = std::make_shared<SimpleEstimator>(g);
-//    auto ev = std::make_unique<SimpleEvaluator>(g);
-//    ev->attachEstimator(est);
-//
-//    std::string str = "3+/1+";
-//    RPQTree* query = RPQTree::strToTree(str);
-//    ev->prepare();
-//    ev->query_optimizer2(ev->find_leaves(query), 0);
-//    ev->best->print();
-//    auto res = ev->evaluate_aux(ev->best);
-//    std::cout<<"   "<<ev->computeStats(res).noPaths<<std::endl;
-//    query->print();
-//    res = ev->evaluate_aux(query);
-//    std::cout<<"   "<<ev->computeStats(res).noPaths;
-
-    //ev->query_optimizer2(ev->find_leaves(query), 0);
-//    //est->prepare();
-//    auto newQuery = ev->query_optimizer(query);
-    //newQuery->print();
-    //auto res = ev->evaluate_aux(newQuery);
-//    std::vector<RPQTree*> ls = ev->find_leaves(query);
-//    for(auto tree : ls) {
-//        tree->print();
-//    }
-
-
-
-//    g->setNoVertices(10);
-//    g->setNoLabels(10);
-//    g->addEdge(1, 2, 0);
-//    g->addEdge(3, 2, 0);
-//    g->addEdge(4, 9, 0);
-//
-//    g->addEdge(2, 4, 1);
-//    g->addEdge(2, 4, 1);
-//    g->addEdge(2, 5, 1);
-//    g->addEdge(2, 8, 1);
-//    g->addEdge(9, 8, 1);
-//
-//    g->addEdge(1, 3, 1);
-//    g->addEdge(1, 4, 1);
-//    g->addEdge(1, 5, 1);
-//
-//    g->addEdge(2, 4, 5);
-//    g->addEdge(2, 5, 6);
-//    g->addEdge(3, 4, 3);
-//
-//    std::cout<<"Graph"<<std::endl;
-//    for(uint32_t i = 0; i < g->getNoLabels(); i ++) {
-//        for(uint32_t j = 0; j < g->adj[i].size(); j ++) {
-//            std::cout<<i<<": "<<g->adj[i][j].first<<", "<<g->adj[i][j].second<<std::endl;
-//        }
-//    }
-//
-//    auto p1 = SimpleEvaluator::project(0, false, g);
-//    auto p2 = SimpleEvaluator::project(1, false, g);
-//
-//    std::sort(p1->begin(),p1->end(), SimpleGraph::sortPairsSecond);
-//    std::sort(p2->begin(), p2->end(), SimpleGraph::sortPairsFirst);
-//
-//    std::cout<<"Projection 1"<<std::endl;
-//
-//    for(uint32_t i = 0; i < p1->size(); i ++) {
-//        std::cout<<p1->at(i).first<<", "<<p1->at(i).second<<std::endl;
-//    }
-//
-//    std::cout<<"Projection 2"<<std::endl;
-//
-//    for(uint32_t i = 0; i < p2->size(); i ++) {
-//        std::cout<<p2->at(i).first<<", "<<p2->at(i).second<<std::endl;
-//    }
-//
-//    auto join = SimpleEvaluator::join(p1, p2);
-//    std::cout<<"Join"<<std::endl;
-//
-//    for(uint32_t i = 0; i < join->size(); i ++) {
-//        std::cout<<join->at(i).first<<", "<<join->at(i).second<<std::endl;
-//    }
-//    auto result = SimpleEvaluator::computeStats(join);
-//    std::cout<<"Results"<<std::endl<<result.noIn<<", "<<result.noOut<<", "<<result.noPaths<<std::endl;
-
     if(argc < 3) {
         std::cout << "Usage: quicksilver <graphFile> <queriesFile>" << std::endl;
         return 0;
@@ -261,7 +178,6 @@ int main(int argc, char *argv[]) {
     std::string graphFile {argv[1]};
     std::string queriesFile {argv[2]};
 
-//    estimatorBench(graphFile, queriesFile);
     evaluatorBench(graphFile, queriesFile);
 
     return 0;
