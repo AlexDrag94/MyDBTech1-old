@@ -190,23 +190,21 @@ RPQTree* SimpleEvaluator::query_optimizer(RPQTree *query) {
     return ls[0];
 
 }
-RPQTree* best;
+RPQTree* best = nullptr;
 uint32_t bestSum = 0;
 
 void SimpleEvaluator::query_optimizer2(std::vector<RPQTree*> query, uint32_t sum) {
     if(query.size() == 1) {
-        if(sum < bestSum || bestSum == 0) {
-            bestSum = sum;
-            best = query[0];
-        }
+        bestSum = sum;
+        best = query[0];
     }
     else {
         std::string data("/");
-        for (auto i = 0; i < query.size() - 1; i++) {
+        for (auto i = 0; i < query.size() - 1; i ++) {
             auto *c_plan = new RPQTree(data, query[i], query[i + 1]);
             uint32_t newSum = sum + est->estimate(c_plan).noPaths;
 
-            if(newSum < bestSum) {
+            if(newSum < bestSum || bestSum == 0) {
                 RPQTree *first = query[i];
                 RPQTree *second = query[i + 1];
 
@@ -224,7 +222,6 @@ void SimpleEvaluator::query_optimizer2(std::vector<RPQTree*> query, uint32_t sum
 
 cardStat SimpleEvaluator::evaluate(RPQTree *query) {
     query_optimizer2(find_leaves(query), 0);
-
     auto res = evaluate_aux(best);
     return SimpleEvaluator::computeStats(res);
 }
