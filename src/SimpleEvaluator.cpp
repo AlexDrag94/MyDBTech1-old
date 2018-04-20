@@ -180,7 +180,7 @@ RPQTree* SimpleEvaluator::query_optimizer(RPQTree *query) {
                 bestTree = currentTree;
                 index = i;
             }
-            if(bestScore < 100) {
+            if(bestScore < 1) {
                 break;
             }
         }
