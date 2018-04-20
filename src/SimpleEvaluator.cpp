@@ -224,8 +224,12 @@ void SimpleEvaluator::query_optimizer2(std::vector<RPQTree*> query, uint32_t sum
 
 cardStat SimpleEvaluator::evaluate(RPQTree *query) {
     uint32_t estPaths = est->estimate(query).noPaths;
+    uint32_t complexity = 1;
+    for(auto i = 2; i <= find_leaves(query).size(); i ++) {
+        complexity *= i;
+    }
     auto res = std::make_shared<std::vector<std::pair<uint32_t,uint32_t>>>();
-    if(find_leaves(query).size() * estPaths > 30000) {
+    if(complexity > 10000) {
         res = evaluate_aux(query_optimizer(query));
     }
     else {
