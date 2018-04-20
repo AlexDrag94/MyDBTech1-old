@@ -157,39 +157,39 @@ std::vector<RPQTree*> SimpleEvaluator::find_leaves(RPQTree *query) {
 }
 
 RPQTree* SimpleEvaluator::query_optimizer(RPQTree *query) {
-    std::vector<RPQTree*> leaves = find_leaves(query);
+    std::vector<RPQTree*> ls = find_leaves(query);
+    prepare();
 
-    while (leaves.size() > 1) {
-        uint32_t bestScore;
+    while (ls.size() > 1) {
+        RPQTree *best_plan = nullptr;
+        uint32_t better_result;
         bool first = true;
-        RPQTree *bestTree = nullptr;
         int index = -1;
 
-        for (int i = 0; i < leaves.size()-1; ++i) {
+        for (int i = 0; i < ls.size()-1; ++i) {
             std::string data("/");
-            auto *currentTree = new RPQTree(data, leaves[i], leaves[i+1]);
-            uint32_t currentScore = est->estimate(currentTree).noPaths;
+            auto *c_plan = new RPQTree(data, ls[i], ls[i+1]);
+            uint32_t c_result = est->estimate(c_plan).noPaths;
             if(first) {
-                bestScore = currentScore;
-                bestTree = currentTree;
+                better_result = c_result;
+                best_plan = c_plan;
                 index = i;
                 first = false;
             }
-            else if (bestScore > currentScore) {
-                bestScore = currentScore;
-                bestTree = currentTree;
+            else if (better_result > c_result) {
+                better_result = c_result;
+                best_plan = c_plan;
                 index = i;
             }
-            if(bestScore < 1) {
-                break;
-            }
+            if(better_result == 0) break;
         }
 
-        leaves.erase(leaves.begin() + index + 1);
-        leaves[index] = bestTree;
+        ls.erase(ls.begin() + index + 1);
+        ls[index] = best_plan;
     }
 
-    return leaves[0];
+    return ls[0];
+
 }
 
 cardStat SimpleEvaluator::evaluate(RPQTree *query) {
