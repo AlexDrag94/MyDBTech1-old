@@ -190,10 +190,11 @@ RPQTree* SimpleEvaluator::query_optimizer(RPQTree *query) {
     return ls[0];
 
 }
-//SimpleEvaluator::best = nullptr;
+
 uint32_t bestSum = UINT32_MAX;
 
 void SimpleEvaluator::query_optimizer2(std::vector<RPQTree*> query, uint32_t sum) {
+
     if(query.size() == 1) {
         bestSum = sum;
         best = query[0];
@@ -222,10 +223,6 @@ void SimpleEvaluator::query_optimizer2(std::vector<RPQTree*> query, uint32_t sum
 
 cardStat SimpleEvaluator::evaluate(RPQTree *query) {
     query_optimizer2(find_leaves(query), 0);
-    auto res = std::make_shared<std::vector<std::pair<uint32_t,uint32_t>>>();
-    if(bestSum == UINT32_MAX) {
-        res = evaluate_aux(query);
-    }
-    else res = evaluate_aux(best);
+    auto res = evaluate_aux(query);
     return SimpleEvaluator::computeStats(res);
 }
