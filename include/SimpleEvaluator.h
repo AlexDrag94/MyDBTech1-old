@@ -34,6 +34,7 @@ public:
 
     std::vector<RPQTree*> find_leaves(RPQTree *query);
     RPQTree* query_optimizer(RPQTree *query);
+    void query_optimizer2(std::vector<RPQTree*> query, uint32_t sum);
 
 
     static cardStat computeStats(std::shared_ptr<std::vector<std::pair<uint32_t,uint32_t>>> &g);

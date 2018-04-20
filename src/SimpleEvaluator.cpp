@@ -158,7 +158,6 @@ std::vector<RPQTree*> SimpleEvaluator::find_leaves(RPQTree *query) {
 
 RPQTree* SimpleEvaluator::query_optimizer(RPQTree *query) {
     std::vector<RPQTree*> ls = find_leaves(query);
-    //prepare();
 
     while (ls.size() > 1) {
         RPQTree *best_plan = nullptr;
@@ -166,9 +165,9 @@ RPQTree* SimpleEvaluator::query_optimizer(RPQTree *query) {
         bool first = true;
         int index = -1;
 
-        for (int i = 0; i < ls.size()-1; ++i) {
+        for (int i = 0; i < ls.size() - 1; i ++) {
             std::string data("/");
-            auto *c_plan = new RPQTree(data, ls[i], ls[i+1]);
+            auto *c_plan = new RPQTree(data, ls[i], ls[i + 1]);
             uint32_t c_result = est->estimate(c_plan).noPaths;
             if(first) {
                 better_result = c_result;
@@ -191,11 +190,41 @@ RPQTree* SimpleEvaluator::query_optimizer(RPQTree *query) {
     return ls[0];
 
 }
+RPQTree* best;
+uint32_t bestSum = 0;
+
+void SimpleEvaluator::query_optimizer2(std::vector<RPQTree*> query, uint32_t sum) {
+    if(query.size() == 1) {
+        if(sum < bestSum || bestSum == 0) {
+            bestSum = sum;
+            best = query[0];
+        }
+    }
+    else {
+        std::string data("/");
+        for (auto i = 0; i < query.size() - 1; i++) {
+            auto *c_plan = new RPQTree(data, query[i], query[i + 1]);
+            uint32_t newSum = sum + est->estimate(c_plan).noPaths;
+
+            if(newSum < bestSum) {
+                RPQTree *first = query[i];
+                RPQTree *second = query[i + 1];
+
+                query[i] = c_plan;
+                query.erase(query.begin() + i + 1);
+
+                query_optimizer2(query, newSum);
+
+                query[i] = first;
+                query.insert(query.begin() + i + 1, second);
+            }
+        }
+    }
+}
 
 cardStat SimpleEvaluator::evaluate(RPQTree *query) {
-    RPQTree* res_query = query_optimizer(query);
-    res_query->print();
+    query_optimizer2(find_leaves(query), 0);
 
-    auto res = evaluate_aux(res_query);
+    auto res = evaluate_aux(best);
     return SimpleEvaluator::computeStats(res);
 }
