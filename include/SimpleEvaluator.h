@@ -33,6 +33,7 @@ public:
     static std::shared_ptr<std::vector<std::pair<uint32_t,uint32_t>>> join(std::shared_ptr<std::vector<std::pair<uint32_t,uint32_t>>> &left, std::shared_ptr<std::vector<std::pair<uint32_t,uint32_t>>> &right);
 
     std::vector<RPQTree*> find_leaves(RPQTree *query);
+    RPQTree* best = nullptr;
     RPQTree* query_optimizer(RPQTree *query);
     void query_optimizer2(std::vector<RPQTree*> query, uint32_t sum);
 

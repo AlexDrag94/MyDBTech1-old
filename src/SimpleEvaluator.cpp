@@ -190,7 +190,7 @@ RPQTree* SimpleEvaluator::query_optimizer(RPQTree *query) {
     return ls[0];
 
 }
-RPQTree* best = nullptr;
+//SimpleEvaluator::best = nullptr;
 uint32_t bestSum = 0;
 
 void SimpleEvaluator::query_optimizer2(std::vector<RPQTree*> query, uint32_t sum) {
