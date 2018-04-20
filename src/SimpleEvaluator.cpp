@@ -223,7 +223,7 @@ void SimpleEvaluator::query_optimizer2(std::vector<RPQTree*> query, uint32_t sum
 }
 
 cardStat SimpleEvaluator::evaluate(RPQTree *query) {
-    bestSum = UINT32_MAX;
+    bestSum = 1;
     query_optimizer2(find_leaves(query), 0);
     auto res = evaluate_aux(best);
     return SimpleEvaluator::computeStats(res);
